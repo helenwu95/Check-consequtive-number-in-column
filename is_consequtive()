@@ -1,0 +1,24 @@
+is_consequtive <- function(df, col_name, ignore_na = "False"){
+  col_type <- typeof(df[[col_name]])
+  print(col_type)
+  # Check the type of data is stored
+  if(col_type != "numeric" & col_type != "double" & col_type != "integer"){
+    stop("Error: The input colume has to be numeric!")
+  }
+  # Check if there is NA value in the column
+  if(ignore_na == "True"){
+    drop_na(df[, col_name])
+  }
+  else if(ignore_na == "False" & sum(is.na(df[, col_name]))){
+    stop("Error: The input column has NA value, considered clean it or set ignore_na as TRUE")
+  }
+  # Check if the data is consequtive
+  df|>
+    arrange(df[, col_name])
+  for (i in 1:(nrow(df) - 1)) {
+    if (df[i + 1, col_name] != df[i, col_name] + 1) {
+      return("The number in this column is not consecutive")
+    }
+      return("The number in this column is consecutive! Hooray!:)")
+  }
+}
